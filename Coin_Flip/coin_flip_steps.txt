@@ -1,0 +1,14 @@
+1. First I deployed the contract as is with the starting value of 1000000000000000 Wei.
+2. Then to begin the game we call the deposit function which I just called with a msg.value of 1000000000000000 Wei although this shouldn't matter.
+3. Now that the game has started we can see the gamestart block number and gameend block number and after a couple minutes the starthash and endhash should also appear when clicked.
+4. Using this information we can write a simple function in solidity and run it to check what the output of uint256 win = ((uint256)(blockhash(gamestart) ^ blockhash(gameend))) % 10; will be.
+5. According to the resolve function, currently player 1 has a 90% chance of winning and player 2 will win if the output of the above line is 1. 
+6. We want to ensure player1 has a 100% chance, so before we call resolve which will end the game, we will always calculate the value of the win variable using the block start hash and end hash to see if  it comes out to the value we want. 
+7. If it ends up being 1 meaning that player2 will win we must call the extend function with the msg.value set to something greater than mintoextend which is 5000000000000000. So I set it to 5000000000000005. 
+8. As a result we will see that the game is extended and more blocks are added resulting in a different endhash.
+9. Now we can check the win variable output again separately by XORing the two hashes and % 10 to ensure the value is not 1.
+
+
+
+1. Another hack way to ensure player1 wins every time is by calling the delegate function with the parameter as player1's address
+2. This way both player1 and player2 are set to player1's address and then the winner will always be player1's address regardless of what the block hashes come out to.

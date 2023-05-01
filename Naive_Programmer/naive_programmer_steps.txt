@@ -1,0 +1,18 @@
+1. First I deployed the contract as is at https://sepolia.etherscan.io/address/0x56aa149ff2af1796240eec23705498564a62dcd1#events
+2. Then I called the constructor SourceTrixAreFor1337 passing in the parameters (400,Sally,Bob)
+3. Then I needed to calculate the bytes32 voteCommit of the string "2" so I wrote a small function that would calculate the keccack256:
+
+pragma solidity ^0.4.21;
+
+contract HashCalculator {
+    function calcHash() public pure returns (bytes32) {
+        bytes32 hash = keccak256(abi.encodePacked("2"));
+        return hash;
+    }
+}
+
+
+
+4. Then I committed a vote by calling commitVote with the parameter 0xad7c5bef027816a800da1736444fb58a807ef4c9603b7848673f7e3a68eb14a5 which was the result of step 3.
+5. Then I revealed the vote by calling revealVote with the parameters (2,0xad7c5bef027816a800da1736444fb58a807ef4c9603b7848673f7e3a68eb14a5)
+6. Then once the isCommitPhase returns false, and committing time is up, we can call getWinner which will return Bob

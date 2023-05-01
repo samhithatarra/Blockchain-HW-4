@@ -1,0 +1,4 @@
+1. Deploy contract as is
+2. Then we can call the deposit function with a msg.value of the bonus cap which is 3133700000000000
+3. Then we call the depositwithbonus() function with a msg.value of anything greater than 0 which will trigger the modifier's if statement "if (msg.value + totaltokens <= bonuscap)" to return false.
+4. As a result the bonus cap has been exceeded and the modifier returns false so the depositwithbonus() logic is never executed.

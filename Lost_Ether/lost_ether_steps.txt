@@ -1,0 +1,5 @@
+1. Deploy the contract as is
+2. We can call the deposit function with some amount like 10 Wei in the value box (msg.value)
+3. We notice the contract's withdraw function is marked payable so it actually is able to receive/set the msg.value of the contract while also calling withdraw.
+4. We take advantage of this by calling withdraw passing in a value of 10 for the function but also making the msg.value 10.
+5. Now the total supply says 0 but the balance of the contract will be different because it is getting set with the value we supplied as msg.value.

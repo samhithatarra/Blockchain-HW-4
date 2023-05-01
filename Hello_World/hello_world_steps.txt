@@ -1,0 +1,4 @@
+Transaction Hash: 0x7cb3556264733a92a54fff296f08e48214361476e04aec6036871fe97bd4980c
+
+For this I just called the deployed given contract on Remix.
+I passed in "st786" as parameter 1 and I used an online converter to get the bytes32 version of "st786" which was "0x7374373836000000000000000000000000000000000000000000000000000000" and passed that in as parameter 2.
